@@ -1,0 +1,7 @@
+{
+  "name": "M3 Shop",
+  "integrations": {
+    "capacitor": {}
+  },
+  "type": "react-vite"
+}

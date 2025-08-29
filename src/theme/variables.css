@@ -1,0 +1,514 @@
+/* Ionic Variables and Theming. For more info, please see:
+http://ionicframework.com/docs/theming/ */
+
+/** Ionic CSS Variables **/
+:root {
+  /** primary **/
+  --ion-color-primary: #3880ff;
+  --ion-color-primary-rgb: 56, 128, 255;
+  --ion-color-primary-contrast: #ffffff;
+  --ion-color-primary-contrast-rgb: 255, 255, 255;
+  --ion-color-primary-shade: #3171e0;
+  --ion-color-primary-tint: #4c8dff;
+
+  /** secondary **/
+  --ion-color-secondary: #3dc2ff;
+  --ion-color-secondary-rgb: 61, 194, 255;
+  --ion-color-secondary-contrast: #ffffff;
+  --ion-color-secondary-contrast-rgb: 255, 255, 255;
+  --ion-color-secondary-shade: #36abe0;
+  --ion-color-secondary-tint: #50c8ff;
+
+  /** tertiary **/
+  --ion-color-tertiary: #5260ff;
+  --ion-color-tertiary-rgb: 82, 96, 255;
+  --ion-color-tertiary-contrast: #ffffff;
+  --ion-color-tertiary-contrast-rgb: 255, 255, 255;
+  --ion-color-tertiary-shade: #4854e0;
+  --ion-color-tertiary-tint: #6370ff;
+
+  /** success **/
+  --ion-color-success: #2dd36f;
+  --ion-color-success-rgb: 45, 211, 111;
+  --ion-color-success-contrast: #ffffff;
+  --ion-color-success-contrast-rgb: 255, 255, 255;
+  --ion-color-success-shade: #28ba62;
+  --ion-color-success-tint: #42d77d;
+
+  /** warning **/
+  --ion-color-warning: #ffc409;
+  --ion-color-warning-rgb: 255, 196, 9;
+  --ion-color-warning-contrast: #000000;
+  --ion-color-warning-contrast-rgb: 0, 0, 0;
+  --ion-color-warning-shade: #e0ac08;
+  --ion-color-warning-tint: #ffca22;
+
+  /** danger **/
+  --ion-color-danger: #eb445a;
+  --ion-color-danger-rgb: 235, 68, 90;
+  --ion-color-danger-contrast: #ffffff;
+  --ion-color-danger-contrast-rgb: 255, 255, 255;
+  --ion-color-danger-shade: #cf3c4f;
+  --ion-color-danger-tint: #ed576b;
+
+  /** dark **/
+  --ion-color-dark: #222428;
+  --ion-color-dark-rgb: 34, 36, 40;
+  --ion-color-dark-contrast: #ffffff;
+  --ion-color-dark-contrast-rgb: 255, 255, 255;
+  --ion-color-dark-shade: #1e2023;
+  --ion-color-dark-tint: #383a3e;
+
+  /** medium **/
+  --ion-color-medium: #92949c;
+  --ion-color-medium-rgb: 146, 148, 156;
+  --ion-color-medium-contrast: #ffffff;
+  --ion-color-medium-contrast-rgb: 255, 255, 255;
+  --ion-color-medium-shade: #808289;
+  --ion-color-medium-tint: #9d9fa6;
+
+  /** light **/
+  --ion-color-light: #f4f5f8;
+  --ion-color-light-rgb: 244, 245, 248;
+  --ion-color-light-contrast: #000000;
+  --ion-color-light-contrast-rgb: 0, 0, 0;
+  --ion-color-light-shade: #d7d8da;
+  --ion-color-light-tint: #f5f6f9;
+}
+
+/* Dark theme overrides - keeping header light */
+@media (prefers-color-scheme: dark) {
+  body {
+    --ion-background-color: #121212;
+    --ion-text-color: #ffffff;
+  }
+
+  .ios body {
+    --ion-background-color: #000000;
+    --ion-text-color: #ffffff;
+    --ion-item-background: #000000;
+    --ion-card-background: #1c1c1d;
+  }
+
+  .md body {
+    --ion-background-color: #121212;
+    --ion-text-color: #ffffff;
+    --ion-item-background: #1e1e1e;
+    --ion-card-background: #1e1e1e;
+  }
+
+  /* Keep header light even in dark mode */
+  .header-toolbar {
+    --background: #3880ff !important;
+    --color: #ffffff !important;
+  }
+
+  .header-title {
+    color: #ffffff !important;
+  }
+
+  .menu-button,
+  .logout-button {
+    --color: #ffffff !important;
+  }
+}
+
+/* Search Styles */
+.search-container {
+  padding: 8px 16px;
+  background: #f4f5f8;
+}
+
+.header-search {
+  --background: #f4f5f8;
+  --border-radius: 8px;
+  --box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.search-bar {
+  --background: transparent;
+  --border-radius: 8px;
+  --box-shadow: none;
+  --placeholder-color: #92949c;
+  --color: #222428;
+}
+
+.search-bar ion-searchbar {
+  --background: transparent;
+  --border-radius: 8px;
+  --box-shadow: none;
+  --placeholder-color: #92949c;
+  --color: #222428;
+}
+
+/* Header Styles */
+.header-toolbar {
+  --background: #3880ff;
+  --color: #ffffff;
+  --min-height: 40px;
+  margin: 0;
+  border-radius: 0;
+}
+
+.header-content {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  width: 100%;
+  padding: 0 8px;
+  gap: 8px;
+  height: 40px;
+}
+
+.header-search-container {
+  flex: 1;
+  display: flex;
+  align-items: center;
+}
+
+.menu-button,
+.logout-button {
+  --color: #ffffff;
+  --background: transparent;
+  --padding-start: 4px;
+  --padding-end: 4px;
+  --min-height: 32px;
+  --min-width: 32px;
+  margin: 0;
+}
+
+.header-searchbar {
+  --background: #ffffff;
+  --border-radius: 6px;
+  --box-shadow: 0 1px 2px rgba(0, 0, 0, 0.1);
+  --min-height: 32px;
+  --max-height: 32px;
+  margin: 0;
+}
+
+.header-searchbar ion-searchbar {
+  --background: #ffffff;
+  --border-radius: 6px;
+  --box-shadow: 0 1px 2px rgba(0, 0, 0, 0.1);
+  --min-height: 32px;
+  --max-height: 32px;
+  margin: 0;
+}
+
+/* Override Ionic default toolbar styles */
+ion-header ion-toolbar {
+  --min-height: 40px;
+  --max-height: 40px;
+  padding: 0;
+}
+
+ion-header ion-toolbar .toolbar-container {
+  min-height: 40px;
+  max-height: 40px;
+  padding: 0;
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+  .search-container {
+    padding: 4px 12px;
+  }
+  
+  .header-title {
+    font-size: 1rem;
+  }
+}
+
+/* Data Table Styles */
+.data-table-container {
+  overflow-x: auto;
+  border-radius: 8px;
+  border: 1px solid #e2e8f0;
+  background: white;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+}
+
+.data-table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 0.875rem;
+}
+
+.table-header {
+  background: #f8fafc;
+  padding: 12px 16px;
+  text-align: left;
+  font-weight: 600;
+  color: #374151;
+  border-bottom: 1px solid #e5e7eb;
+  white-space: nowrap;
+}
+
+.table-row {
+  border-bottom: 1px solid #f3f4f6;
+  transition: background-color 0.2s;
+}
+
+.table-row:hover {
+  background-color: #f9fafb;
+}
+
+.table-cell {
+  padding: 12px 16px;
+  color: #374151;
+  border-bottom: 1px solid #f3f4f6;
+  vertical-align: middle;
+}
+
+.actions-header {
+  width: 80px;
+  text-align: center;
+}
+
+.actions-cell {
+  text-align: center;
+  width: 80px;
+}
+
+.action-buttons {
+  display: flex;
+  gap: 4px;
+  justify-content: center;
+}
+
+.edit-button,
+.delete-button {
+  --padding-start: 8px;
+  --padding-end: 8px;
+  --min-height: 32px;
+}
+
+.edit-button {
+  --color: #3b82f6;
+}
+
+.delete-button {
+  --color: #ef4444;
+}
+
+/* Status Badge Styles */
+.status-badge {
+  display: inline-block;
+  padding: 4px 8px;
+  border-radius: 4px;
+  font-size: 0.75rem;
+  font-weight: 500;
+  text-transform: uppercase;
+  letter-spacing: 0.025em;
+}
+
+.status-badge.active,
+.status-badge.success {
+  background-color: #dcfce7;
+  color: #166534;
+}
+
+.status-badge.inactive,
+.status-badge.danger {
+  background-color: #fee2e2;
+  color: #991b1b;
+}
+
+.status-badge.warning {
+  background-color: #fef3c7;
+  color: #92400e;
+}
+
+.status-badge.primary {
+  background-color: #dbeafe;
+  color: #1e40af;
+}
+
+/* Empty Table State */
+.empty-table {
+  padding: 48px 24px;
+  text-align: center;
+  color: #6b7280;
+}
+
+.empty-message {
+  font-size: 0.875rem;
+  margin: 0;
+}
+
+/* Dashboard Stats - Modern Design */
+.dashboard-stats {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  grid-template-rows: repeat(2, 1fr);
+  gap: 16px;
+  margin-bottom: 24px;
+  width: 100%;
+}
+
+.stat-item {
+  background: #3b82f6;
+  border-radius: 8px;
+  padding: 16px;
+  color: white;
+  position: relative;
+  box-shadow: 0 4px 12px rgba(59, 130, 246, 0.3);
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+  min-height: 80px;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+}
+
+.stat-item:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 8px 20px rgba(59, 130, 246, 0.4);
+}
+
+.stat-header {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin-bottom: 12px;
+}
+
+.stat-header .material-icons {
+  font-size: 20px;
+  color: rgba(255, 255, 255, 0.9);
+}
+
+.stat-title {
+  font-size: 0.875rem;
+  font-weight: 500;
+  color: rgba(255, 255, 255, 0.9);
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+.stat-number {
+  font-size: 1.5rem;
+  font-weight: 700;
+  color: white;
+  line-height: 1.2;
+}
+
+/* Responsive Table */
+@media (max-width: 768px) {
+  .data-table-container {
+    font-size: 0.75rem;
+  }
+  
+  .table-header,
+  .table-cell {
+    padding: 8px 12px;
+  }
+  
+  .action-buttons {
+    flex-direction: column;
+    gap: 2px;
+  }
+  
+  .edit-button,
+  .delete-button {
+    --min-height: 28px;
+  }
+
+  .dashboard-stats {
+    gap: 12px;
+    grid-template-columns: repeat(2, 1fr);
+    grid-template-rows: repeat(2, 1fr);
+  }
+
+  .stat-item {
+    padding: 12px;
+    min-height: 70px;
+  }
+
+  .stat-header .material-icons {
+    font-size: 18px;
+  }
+
+  .stat-title {
+    font-size: 0.75rem;
+  }
+
+  .stat-number {
+    font-size: 1.25rem;
+  }
+}
+
+/* Compact Filters */
+.filters-row {
+  display: flex;
+  gap: 8px;
+  align-items: center;
+  flex-wrap: wrap;
+}
+
+.filter-item {
+  flex: 1;
+  min-width: 120px;
+}
+
+.filter-select-compact {
+  --background: #ffffff;
+  --border-radius: 6px;
+  --border: 1px solid #e5e7eb;
+  --min-height: 32px;
+  --padding-start: 8px;
+  --padding-end: 8px;
+  font-size: 0.875rem;
+}
+
+/* Section Title Styles */
+.section-title {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 1.125rem;
+  font-weight: 600;
+  color: #111827;
+  margin: 0;
+}
+
+.section-title ion-icon {
+  font-size: 1.25rem;
+  color: #3b82f6;
+}
+
+/* Tab Bar Styles */
+.ion-tab-bar {
+  --background: #ffffff;
+  --border-color: #e5e7eb;
+  --min-height: 60px;
+}
+
+.ion-tab-button {
+  --color: #6b7280;
+  --color-selected: #3b82f6;
+  --min-height: 50px;
+}
+
+.ion-tab-button ion-icon {
+  font-size: 18px;
+}
+
+.ion-tab-button ion-label {
+  font-size: 0.75rem;
+  margin-top: 2px;
+}
+
+.stock-tab {
+  --color: #3b82f6;
+  --color-selected: #3b82f6;
+}
+
+.stock-tab ion-icon {
+  font-size: 18px;
+  color: #3b82f6;
+}
+
+.stock-tab ion-label {
+  color: #3b82f6;
+  font-weight: 600;
+}
