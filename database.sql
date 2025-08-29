@@ -1,4 +1,3 @@
-
 -- Ensure required extensions are available
 CREATE EXTENSION IF NOT EXISTS pgcrypto;
 
@@ -62,10 +61,6 @@ CREATE TABLE financial_categories (
     created_at TIMESTAMP WITH TIME ZONE DEFAULT NOW(),
     updated_at TIMESTAMP WITH TIME ZONE DEFAULT NOW()
 );
-
--- Add constraint to ensure only one primary wallet and one change wallet
-ALTER TABLE financial_categories ADD CONSTRAINT unique_primary_wallet UNIQUE (is_primary) WHERE is_primary = TRUE;
-ALTER TABLE financial_categories ADD CONSTRAINT unique_change_wallet UNIQUE (is_change) WHERE is_change = TRUE;
 
 -- Add constraint to prevent a wallet from being both primary and change
 ALTER TABLE financial_categories ADD CONSTRAINT no_primary_and_change CHECK (NOT (is_primary = TRUE AND is_change = TRUE));
@@ -131,8 +126,6 @@ CREATE TABLE goods_history (
 -- Add id_goods_history column to transactions table after goods_history is created
 ALTER TABLE transactions ADD COLUMN id_goods_history UUID REFERENCES goods_history(id) ON DELETE SET NULL;
 
-
-
 -- Create damaged_goods table
 CREATE TABLE damaged_goods (
     id UUID DEFAULT gen_random_uuid() PRIMARY KEY,
@@ -158,6 +151,10 @@ CREATE TABLE informations (
     informationname VARCHAR(255) NOT NULL,
     created_at TIMESTAMP WITH TIME ZONE DEFAULT NOW()
 );
+
+-- Create partial unique indexes instead of constraints with WHERE clauses
+CREATE UNIQUE INDEX unique_primary_wallet ON financial_categories (is_primary) WHERE is_primary = TRUE;
+CREATE UNIQUE INDEX unique_change_wallet ON financial_categories (is_change) WHERE is_change = TRUE;
 
 -- Insert default data
 INSERT INTO financial_categories (name, color, icon) VALUES
@@ -200,10 +197,6 @@ INSERT INTO financial_categories (name, color, icon, is_primary) VALUES
 ('Rekening BCA', '#10B981', 'bank', false),
 ('e-Wallet DANA', '#06B6D4', 'digital', false)
 ON CONFLICT DO NOTHING;
-
-
-
-
 
 -- Comprehensive test data for locations (10 locations)
 INSERT INTO locations (locationname, address) VALUES
@@ -263,7 +256,7 @@ INSERT INTO goods (idcategory, code, name, price, damaged_stock) VALUES
 ((SELECT id FROM categories WHERE categoryname = 'Snack' LIMIT 1), 'SKU-021', 'Taro Net Seaweed 68g', 9000, 0),
 ((SELECT id FROM categories WHERE categoryname = 'Snack' LIMIT 1), 'SKU-022', 'Cheetos Puff 85g', 8500, 0),
 ((SELECT id FROM categories WHERE categoryname = 'Snack' LIMIT 1), 'SKU-023', 'Pringles Original 110g', 25000, 0),
-((SELECT id FROM categories WHERE categoryname = 'Snack' LIMIT 1), 'SKU-024', 'Oreo Original 137g', 15000, 0),
+((SELECT id FROM categories WHERE categoryname = 'Snack' LIMIT 1), 'SKU-024', 'Ooreo Original 137g', 15000, 0),
 
 -- Rokok (5 items)
 ((SELECT id FROM categories WHERE categoryname = 'Rokok' LIMIT 1), 'SKU-025', 'Gudang Garam Surya 12', 29000, 0),
