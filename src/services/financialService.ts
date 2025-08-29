@@ -7,6 +7,7 @@ export interface FinancialCategory {
   color: string;
   icon: string;
   is_primary?: boolean;
+  is_change?: boolean;
   is_active: boolean;
   created_at: string;
   updated_at: string;
@@ -47,10 +48,14 @@ export class FinancialService {
     color: string;
     icon: string;
     is_primary?: boolean;
+    is_change?: boolean;
   }): Promise<FinancialCategory | null> {
     try {
       if (categoryData.is_primary) {
         await supabase.from('financial_categories').update({ is_primary: false }).eq('is_primary', true);
+      }
+      if (categoryData.is_change) {
+        await supabase.from('financial_categories').update({ is_change: false }).eq('is_change', true);
       }
 
       const { data, error } = await supabase
@@ -80,10 +85,14 @@ export class FinancialService {
     icon?: string;
     is_active?: boolean;
     is_primary?: boolean;
+    is_change?: boolean;
   }): Promise<FinancialCategory | null> {
     try {
       if (categoryData.is_primary) {
         await supabase.from('financial_categories').update({ is_primary: false }).eq('is_primary', true);
+      }
+      if (categoryData.is_change) {
+        await supabase.from('financial_categories').update({ is_change: false }).eq('is_change', true);
       }
 
       const { data, error } = await supabase
@@ -810,30 +819,50 @@ export class FinancialService {
     }
   }
 
+  // Get change wallet ID
+  static async getChangeWalletId(): Promise<string | null> {
+    try {
+      const { data, error } = await supabase
+        .from('financial_categories')
+        .select('id')
+        .eq('is_change', true)
+        .eq('is_active', true)
+        .single();
+
+      if (error) {
+        console.error('Get change wallet ID error:', error);
+        return null;
+      }
+
+      return data?.id || null;
+    } catch (error) {
+      console.error('Get change wallet ID error:', error);
+      return null;
+    }
+  }
 
 
 
 
-  // Admin Sale Processing: multi-item sale with cash received and change taken from receh
+
+  // Admin Sale Processing: multi-item sale with cash received and change taken from change wallet
   static async processAdminSale(params: {
     adminId: string;
     items: Array<{ idgood: string; idlocation: string; quantity: number; price: number }>;
     cashReceived: number;
     paymentMethod?: 'cash' | 'digital';
     walletOmsetName?: string; // default 'Omset'
-    walletRecehName?: string; // default 'Saldo Receh'
     note?: string;
   }): Promise<{ success: boolean; message?: string } > {
     try {
       const walletOmsetName = params.walletOmsetName || 'Omset';
-      const walletRecehName = params.walletRecehName || 'Saldo Receh';
 
-      const [omsetId, recehId] = await Promise.all([
+      const [omsetId, changeWalletId] = await Promise.all([
         this.getWalletIdByName(walletOmsetName),
-        this.getWalletIdByName(walletRecehName)
+        this.getChangeWalletId()
       ]);
-      if (!omsetId || !recehId) {
-        return { success: false, message: 'Dompet Omset atau Saldo Receh tidak ditemukan' };
+      if (!omsetId || !changeWalletId) {
+        return { success: false, message: 'Dompet Omset atau Dompet Kembalian tidak ditemukan' };
       }
 
       const total = params.items.reduce((sum, it) => sum + (it.quantity * it.price), 0);
@@ -842,9 +871,8 @@ export class FinancialService {
 
       console.log('Admin Sale Debug Info:', {
         walletOmsetName,
-        walletRecehName,
         omsetId,
-        recehId,
+        changeWalletId,
         total,
         cashReceived: params.cashReceived,
         paymentMethod,
@@ -937,16 +965,16 @@ export class FinancialService {
           .eq('idlocation', it.idlocation);
               }
 
-      // 3) Update cash balances: omset += total; receh -= change (only for cash payment)
+      // 3) Update cash balances: omset += total; change wallet -= change (only for cash payment)
 
-      const [omsetBal, recehBal] = await Promise.all([
+      const [omsetBal, changeWalletBalance] = await Promise.all([
         this.getCashBalance(omsetId),
-        this.getCashBalance(recehId)
+        this.getCashBalance(changeWalletId)
       ]);
       
       console.log('Cash Balance Debug Info:', {
         omsetBalance: omsetBal,
-        recehBalance: recehBal,
+        changeWalletBalance: changeWalletBalance,
         total,
         change,
         paymentMethod
@@ -955,14 +983,14 @@ export class FinancialService {
       // Update omset balance (money received from customer)
       await this.updateCashBalance(omsetId, (omsetBal || 0) + total, 'Penjualan admin');
       
-      // Update receh balance (money given as change to customer) - only for cash payment
+      // Update change wallet balance (money given as change to customer) - only for cash payment
       if (paymentMethod === 'cash' && change > 0) {
-        const newRecehBalance = Math.max(0, (recehBal || 0) - change);
-        await this.updateCashBalance(recehId, newRecehBalance, 'Kembalian penjualan');
-        console.log(`Updated receh balance: ${recehBal || 0} - ${change} = ${newRecehBalance}`);
-        console.log(`Receh balance before: ${recehBal || 0}, change: ${change}, after: ${newRecehBalance}`);
+        const newChangeWalletBalance = Math.max(0, (changeWalletBalance || 0) - change);
+        await this.updateCashBalance(changeWalletId, newChangeWalletBalance, 'Kembalian penjualan');
+        console.log(`Updated change wallet balance: ${changeWalletBalance || 0} - ${change} = ${newChangeWalletBalance}`);
+        console.log(`Change wallet balance before: ${changeWalletBalance || 0}, change: ${change}, after: ${newChangeWalletBalance}`);
       } else {
-        console.log('No receh balance update needed:', {
+        console.log('No change wallet balance update needed:', {
           paymentMethod,
           change,
           reason: paymentMethod === 'digital' ? 'Digital payment - no change' : 'No change needed'

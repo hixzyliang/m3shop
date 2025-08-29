@@ -34,7 +34,8 @@ const FinancialCategoryManagement: React.FC = () => {
     name: '',
     color: '#3B82F6',
     icon: 'wallet',
-    is_primary: false
+    is_primary: false,
+    is_change: false
   });
 
   // Predefined icons for selection
@@ -94,7 +95,8 @@ const FinancialCategoryManagement: React.FC = () => {
       name: '',
       color: '#3B82F6',
       icon: 'wallet',
-      is_primary: false
+      is_primary: false,
+      is_change: false
     });
     setShowModal(true);
   };
@@ -106,7 +108,8 @@ const FinancialCategoryManagement: React.FC = () => {
       name: '',
       color: '#3B82F6',
       icon: 'wallet',
-      is_primary: false
+      is_primary: false,
+      is_change: false
     });
   };
 
@@ -116,7 +119,8 @@ const FinancialCategoryManagement: React.FC = () => {
       name: category.name,
       color: category.color,
       icon: category.icon,
-      is_primary: !!(category as any).is_primary
+      is_primary: !!(category as any).is_primary,
+      is_change: !!(category as any).is_change
     });
     setShowModal(true);
   };
@@ -236,6 +240,20 @@ const FinancialCategoryManagement: React.FC = () => {
       render: (value: boolean) => (
         value ? (
           <span className="px-2 py-1 text-xs font-medium rounded-full bg-blue-100 text-blue-800">
+            Ya
+          </span>
+        ) : (
+          <span className="text-gray-400">-</span>
+        )
+      )
+    },
+    {
+      key: 'is_change',
+      label: 'Kembalian',
+      width: '10%',
+      render: (value: boolean) => (
+        value ? (
+          <span className="px-2 py-1 text-xs font-medium rounded-full bg-green-100 text-green-800">
             Ya
           </span>
         ) : (
@@ -446,6 +464,17 @@ const FinancialCategoryManagement: React.FC = () => {
                     className="h-4 w-4 text-blue-600 border-gray-300 rounded"
                   />
                   <label htmlFor="isPrimary" className="text-sm text-gray-700">Jadikan dompet utama</label>
+                </div>
+
+                <div className="flex items-center gap-2">
+                  <input
+                    id="isChange"
+                    type="checkbox"
+                    checked={formData.is_change}
+                    onChange={(e) => setFormData({ ...formData, is_change: e.target.checked })}
+                    className="h-4 w-4 text-green-600 border-gray-300 rounded"
+                  />
+                  <label htmlFor="isChange" className="text-sm text-gray-700">Jadikan dompet kembalian</label>
                 </div>
                 
                 <div className="flex gap-3 mt-6">

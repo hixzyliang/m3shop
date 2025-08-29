@@ -575,7 +575,7 @@ const AdminHome: React.FC = () => {
                         Rp {change.toLocaleString('id-ID')}
                       </div>
                       {paymentMethod === 'cash' && change > 0 && (
-                        <p className="text-xs text-gray-500 mt-1">Kembalian akan diambil dari uang receh</p>
+                        <p className="text-xs text-gray-500 mt-1">Kembalian akan diambil dari dompet kembalian</p>
                       )}
                     </div>
 
@@ -695,7 +695,7 @@ const AdminHome: React.FC = () => {
                             Kembalian: Rp {bulkChange.toLocaleString('id-ID')}
                           </div>
                           {bulkPaymentMethod === 'cash' && bulkChange > 0 && (
-                            <p className="text-xs text-gray-500">Kembalian akan diambil dari uang receh</p>
+                            <p className="text-xs text-gray-500">Kembalian akan diambil dari dompet kembalian</p>
                           )}
                         </div>
 

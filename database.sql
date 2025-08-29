@@ -57,10 +57,18 @@ CREATE TABLE financial_categories (
     color VARCHAR(7) NOT NULL DEFAULT '#3B82F6',
     icon VARCHAR(50) NOT NULL DEFAULT 'wallet',
     is_primary BOOLEAN DEFAULT FALSE,
+    is_change BOOLEAN DEFAULT FALSE,
     is_active BOOLEAN DEFAULT TRUE,
     created_at TIMESTAMP WITH TIME ZONE DEFAULT NOW(),
     updated_at TIMESTAMP WITH TIME ZONE DEFAULT NOW()
 );
+
+-- Add constraint to ensure only one primary wallet and one change wallet
+ALTER TABLE financial_categories ADD CONSTRAINT unique_primary_wallet UNIQUE (is_primary) WHERE is_primary = TRUE;
+ALTER TABLE financial_categories ADD CONSTRAINT unique_change_wallet UNIQUE (is_change) WHERE is_change = TRUE;
+
+-- Add constraint to prevent a wallet from being both primary and change
+ALTER TABLE financial_categories ADD CONSTRAINT no_primary_and_change CHECK (NOT (is_primary = TRUE AND is_change = TRUE));
 
 -- Create goods table
 CREATE TABLE goods (
@@ -162,6 +170,9 @@ INSERT INTO financial_categories (name, color, icon) VALUES
 
 -- Set default primary wallet to 'Uang Tunai'
 UPDATE financial_categories SET is_primary = TRUE WHERE name = 'Uang Tunai';
+
+-- Set default change wallet to 'Saldo Receh'
+UPDATE financial_categories SET is_change = TRUE WHERE name = 'Saldo Receh';
 
 INSERT INTO transaction_descriptions (descriptionname, type) VALUES
 ('Penjualan', 'in'),
