@@ -1,1 +1,0 @@
--- Script to initialize Saldo Receh balance
